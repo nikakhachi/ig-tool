@@ -1,0 +1,14 @@
+const ENV_VARIABLES = [
+  "NODE_ENV",
+  "PORT",
+  "SESSION_SECRET",
+  "JWT_KEY",
+  "JWT_REFRESH_KEY",
+  "DATABASE_URL",
+  "RAPID_API_KEY",
+  "INSTAGRAPI_REST_USERNAME",
+  "INSTAGRAPI_REST_PASSWORD",
+];
+const NODE_ENV_OPTIONS = ["development", "production", "testing"];
+
+export { ENV_VARIABLES, NODE_ENV_OPTIONS };

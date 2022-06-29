@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      Int            @id @default(autoincrement())
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+  pk                      String
+  username                String
+  followerCount           Int
+  followingCount          Int
+  profilePicUrl           String?
+  profilePicUrlHd         String?
+  isPrivate               Boolean?
+  isVerified              Boolean?
+  biography               String?
+  connections             Connection[]
+}
+
+model Connection {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  pk                  String
+  username            String
+  fullName            String
+  profilePicUrl       String
+  connectionHistory   ConnectionHistory[]
+  userId              Int
+  user                User              @relation(fields: [userId], references: [id])
+}
+
+model ConnectionHistory {
+  id                  Int            @id @default(autoincrement())
+  createdAt           DateTime       @default(now())
+  connectionTypeId    Int
+  connectionType      ConnectionType @relation(fields: [connectionTypeId], references: [id])
+  connectionId        Int
+  connection          Connection     @relation(fields: [connectionId], references: [id])
+}
+
+
+model ConnectionType {
+  id                  Int            @id @default(autoincrement())
+  name                String         // -/Following | Follower/- | Follower/Following
+  connectionHistory   ConnectionHistory[]
+}
+

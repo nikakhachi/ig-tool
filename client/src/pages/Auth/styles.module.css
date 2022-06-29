@@ -1,0 +1,30 @@
+.container {
+  background-color: rgb(25, 25, 25);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formBox {
+  background-color: white;
+  border-radius: 0.2rem;
+  width: 500px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.formBox h3 {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.buttonDiv {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
