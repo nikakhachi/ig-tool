@@ -1,0 +1,29 @@
+{
+  "name": "ig-helper-tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "echo instal",
+    "front-eslint:fix": "npm run eslint:fix --prefix client",
+    "front-format:write": "npm run format:write --prefix client",
+    "back-format:write": "npm run format:write --prefix server",
+    "back-eslint:fix": "npm run eslint:fix --prefix server",
+    "pre-commit-check": "npm run front-format:write && npm rum back-format:write && npm run back-eslint:fix && npm run front-eslint:fix",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikakhachi/ig-tool.git"
+  },
+  "keywords": [],
+  "author": "Nika Khachiashvili",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikakhachi/ig-tool/issues"
+  },
+  "homepage": "https://github.com/nikakhachi/ig-tool#readme",
+  "devDependencies": {
+    "husky": "^8.0.1"
+  }
+}
