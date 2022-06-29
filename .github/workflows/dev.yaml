@@ -19,7 +19,7 @@ jobs:
           ref: develop
 
       - name: build a docker image
-        run: docker build -t server:latest .
+        run: docker build -t server:latest ./server
 
       - name: push the image to DockerHub
         run: echo $DOCKERHUB_PASSWORD | docker login --username $(echo $DOCKERHUB_USERNAME) --password-stdin && docker tag server:latest $(echo $BACKEND_REGISTRY_ENDPOINT):latest && docker push $(echo $BACKEND_REGISTRY_ENDPOINT):latest
@@ -46,7 +46,7 @@ jobs:
           ref: develop
 
       - name: build a docker image
-        run: docker build -t client:latest .
+        run: docker build -t client:latest ./client
 
       - name: push the image to DockerHub
         run: echo $DOCKERHUB_PASSWORD | docker login --username $(echo $DOCKERHUB_USERNAME) --password-stdin && docker tag client:latest $(echo $FRONTEND_REGISTRY_ENDPOINT):latest && docker push $(echo $FRONTEND_REGISTRY_ENDPOINT):latest
