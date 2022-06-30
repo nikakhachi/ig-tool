@@ -20,7 +20,7 @@ jobs:
           ref: develop
 
       - name: copy types from server dir
-        run: cp ./server/types ./client/types
+        run: cp -r ./server/types ./client/types
 
       - name: build a docker image
         run: docker build -t client:latest ./client
