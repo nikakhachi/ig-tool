@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      // "serverTypes/*": ["../server/types/*"] // development
+      "serverTypes/*": ["./types/*"] // staging env
+    }
   },
   "include": ["src"]
 }
