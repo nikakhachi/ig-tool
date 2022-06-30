@@ -39,7 +39,7 @@ instagrapiSessionIdCron();
 
 export const initScheduledJobs = () => {
   try {
-    cron.schedule("* 0 * * *", userUpdaterCron);
+    cron.schedule("0 0 * * *", userUpdaterCron);
     cron.schedule("0 */5 * * *", instagrapiSessionIdCron);
   } catch (e) {
     logger.error("CRON: scheduling was failed");
