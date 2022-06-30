@@ -1,0 +1,43 @@
+name: dev workflow
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'client/**'
+env:
+  FRONTEND_REGISTRY_ENDPOINT: ${{secrets.FRONTEND_REGISTRY_ENDPOINT}}
+  DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+  DOCKERHUB_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out the repository
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+
+      - name: copy types from server dir
+        run: cp ./server/types ./client/types
+
+      - name: build a docker image
+        run: docker build -t client:latest ./client
+
+      - name: push the image to DockerHub
+        run: echo $DOCKERHUB_PASSWORD | docker login --username $(echo $DOCKERHUB_USERNAME) --password-stdin && docker tag client:latest $(echo $FRONTEND_REGISTRY_ENDPOINT):latest && docker push $(echo $FRONTEND_REGISTRY_ENDPOINT):latest
+
+  deploy:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy to Digitalocean droplet via SSH key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_HOST }}
+          username: ${{ secrets.CLOUD_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          envs: FRONTEND_REGISTRY_ENDPOINT,DOCKERHUB_USERNAME,DOCKERHUB_PASSWORD
+          script: docker rm -f client && echo $DOCKERHUB_PASSWORD | docker login --username $(echo $DOCKERHUB_USERNAME) --password-stdin && docker pull $(echo $FRONTEND_REGISTRY_ENDPOINT):latest && docker run -d --name client -p 3000:80 $(echo $FRONTEND_REGISTRY_ENDPOINT):latest

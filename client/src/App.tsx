@@ -1,11 +1,23 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { UserProvider } from './contexts/UserContext';
 import { SignIn } from './pages/Auth';
 import { Home } from './pages/Home';
 import { PrivateRoute } from './routes/PrivateRoute';
+import { UserConnectionType } from 'serverTypes/main.types';
 
 function App() {
+  useEffect(() => {
+    let connection: UserConnectionType = {
+      pk: 7126713,
+      username: 'string',
+      full_name: 'string',
+      profile_pic_url: 'string',
+      connectionTypeId: undefined,
+    };
+    console.log(connection);
+  }, []);
   return (
     <div className="App">
       <UserProvider>
