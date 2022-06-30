@@ -1,4 +1,4 @@
-name: dev workflow
+name: client-dev workflow
 on:
   push:
     branches:

@@ -16,7 +16,7 @@ function App() {
       profile_pic_url: 'string',
       connectionTypeId: undefined,
     };
-    console.log(connection);
+    console.log(connection, 'test');
   }, []);
   return (
     <div className="App">
