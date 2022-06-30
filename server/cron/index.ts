@@ -34,13 +34,13 @@ const instagrapiSessionIdCron = async () => {
 };
 
 // instagrapiSessionIdCron();
-setInstagramSessionIdInCache("54017079092%3AUmny1PAHZ5C0ar%3A10");
+// setInstagramSessionIdInCache("54017079092%3AUmny1PAHZ5C0ar%3A10");
 // userUpdaterCron();
 
 export const initScheduledJobs = () => {
   try {
-    cron.schedule("0 * * * *", userUpdaterCron);
-    cron.schedule("0 */2 * * *", instagrapiSessionIdCron);
+    cron.schedule("* 0 * * *", userUpdaterCron);
+    cron.schedule("0 */5 * * *", instagrapiSessionIdCron);
   } catch (e) {
     logger.error("CRON: scheduling was failed");
   }
