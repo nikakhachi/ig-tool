@@ -75,10 +75,6 @@ export const getUserInfo = async (username: string) => {
 export const createUser = async (userData: FullInstagramUserDataType) => {
   logger.debug("Creating User");
   const connections = getProcessedConnections(userData.userFollowers, userData.userFollowings);
-  console.log("---------\nUSER INFO");
-  console.log(userData.userInfo);
-  console.log("---------\nUSER CONNECTIONS");
-  console.log(connections);
   const createdUser = await prisma.user.create({
     data: {
       ...userData.userInfo,
