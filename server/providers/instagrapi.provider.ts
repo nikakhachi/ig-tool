@@ -1,6 +1,6 @@
 import axios from "axios";
 import FormData from "form-data";
-import { getInstagramSessionIdFromCache, increaseInstagramSessionIdRate } from "../cache";
+import { getInstagramSessionIdFromCache } from "../cache";
 import { FullInstagramUserDataType, UserConnectionType } from "../types/main.types";
 import logger from "../utils/logger";
 import { UserInfoType } from "../types/instagrapiProvider.types";
@@ -27,7 +27,6 @@ const getUserId = async (username: string): Promise<{ id: string }> => {
   const formData = new FormData();
   formData.append("username", username);
   formData.append("sessionid", instagrapiSessionId);
-  increaseInstagramSessionIdRate();
   const { data } = await axios.post(`${INSTAGRAPI_REST_ENDPOINT}/user/id_from_username`, formData);
   return { id: data as string };
 };
@@ -40,7 +39,6 @@ const getFollowings = async (pk: string) => {
   formData.append("sessionid", instagrapiSessionId);
   formData.append("use_cache", "false");
   formData.append("amount", "0");
-  increaseInstagramSessionIdRate();
   const { data } = await axios.post(`${INSTAGRAPI_REST_ENDPOINT}/user/following`, formData);
   const followings: UserConnectionType[] = Object.keys(data).map((item) => ({
     pk: data[item].pk,
@@ -60,7 +58,6 @@ const getFollowers = async (pk: string) => {
   formData.append("sessionid", instagrapiSessionId);
   formData.append("use_cache", "false");
   formData.append("amount", "0");
-  increaseInstagramSessionIdRate();
   const { data } = await axios.post(`${INSTAGRAPI_REST_ENDPOINT}/user/followers`, formData);
   const followers: UserConnectionType[] = Object.keys(data).map((item) => ({
     pk: data[item].pk,
@@ -78,7 +75,6 @@ const getUserInfo = async (pk: string) => {
   formData.append("user_id", pk);
   formData.append("sessionid", getInstagramSessionIdFromCache());
   formData.append("use_cache", "false");
-  increaseInstagramSessionIdRate();
   const { data: userInfo } = (await axios.post(`${INSTAGRAPI_REST_ENDPOINT}/user/info`, formData)) as { data: UserInfoType };
   return userInfo;
 };
