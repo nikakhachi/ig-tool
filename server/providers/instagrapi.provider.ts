@@ -1,6 +1,7 @@
 import axios from "axios";
 import FormData from "form-data";
 import { getInstagramSessionIdFromCache } from "../cache";
+import generateRootUserCredentials from "../config/generateRootUserCredentials";
 import { FullInstagramUserDataType, UserConnectionType } from "../types/main.types";
 import logger from "../utils/logger";
 import { UserInfoType } from "../types/instagrapiProvider.types";
@@ -10,8 +11,9 @@ const INSTAGRAPI_REST_ENDPOINT = `http://localhost:8000`;
 const getSessionId = async () => {
   logger.debug("INSTAGRAPI : Getting Session ID");
   const formData = new FormData();
-  formData.append("username", process.env["INSTAGRAPI_REST_USERNAME"]);
-  formData.append("password", process.env["INSTAGRAPI_REST_PASSWORD"]);
+  const { username, password } = generateRootUserCredentials();
+  formData.append("username", username);
+  formData.append("password", password);
   formData.append("verification_code", "");
   formData.append("proxy", "");
   formData.append("locale", "");
