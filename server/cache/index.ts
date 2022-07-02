@@ -9,21 +9,22 @@ const sessionIdExpiration = 60 * 60 * 5;
 const sessionIdRateLimit = 5;
 const numOfInstagramRootAccounts: number = process.env.INSTAGRAPI_REST_USERNAME?.split(" ").length || 1;
 
-const updateRootAccountIteratorValue = (val: number): void => {
+const getRootAccountIteratorValue = (val: number): number => {
   logger.debug(`ROOT: number of administrative accounts: ${numOfInstagramRootAccounts}`);
-  let iterator: number = getRootAccountIteratorValue() || 0;
-  logger.debug(`ROOT: configured account is ${iterator}`);
-  let condition: boolean = typeof iterator === "number" && iterator < numOfInstagramRootAccounts - 1;
-  if (condition) {
-    iterator += val;
-  } else {
-    iterator = 0;
-  }
-  cache.set(CacheKeys.ROOT_ACCOUNT_ITERATOR, iterator);
-};
+  let cachedIterator: number, iteratorNextValue: number;
+  cachedIterator = iteratorNextValue = cache.get(CacheKeys.ROOT_ACCOUNT_ITERATOR) || 0;
 
-const getRootAccountIteratorValue = (): number | undefined => {
-  return cache.get(CacheKeys.ROOT_ACCOUNT_ITERATOR);
+  logger.debug(`ROOT: configured account is ${cachedIterator}`);
+
+  let conditionToIncrease: boolean = typeof iteratorNextValue === "number" && iteratorNextValue < numOfInstagramRootAccounts - 1;
+  if (conditionToIncrease) {
+    iteratorNextValue += val;
+  } else {
+    // If an iterator value hits the number of accounts available or it is not present at all
+    iteratorNextValue = 0;
+  }
+  cache.set(CacheKeys.ROOT_ACCOUNT_ITERATOR, iteratorNextValue);
+  return cachedIterator;
 };
 
 const getInstagramSessionIdRate = () => {
@@ -65,10 +66,4 @@ const setCacheEvent = (event: string, callback: (key: string, value: string) => 
   cache.on(event, (key, value) => callback(key, value));
 };
 
-export {
-  getInstagramSessionIdFromCache,
-  setInstagramSessionIdInCache,
-  setCacheEvent,
-  updateRootAccountIteratorValue,
-  getRootAccountIteratorValue,
-};
+export { getInstagramSessionIdFromCache, setInstagramSessionIdInCache, setCacheEvent, getRootAccountIteratorValue };
