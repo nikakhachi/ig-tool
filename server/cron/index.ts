@@ -22,7 +22,7 @@ const userUpdaterCron = async () => {
   }
 };
 
-const instagrapiSessionIdCron = async () => {
+export const instagrapiSessionIdCron = async () => {
   try {
     logger.debug("CRON : SessionID Cron Started");
     const sessionId = await instagrapi.getSessionId();
@@ -32,10 +32,6 @@ const instagrapiSessionIdCron = async () => {
     logger.error("CRON: failed instagrapiSessionIdCron", e);
   }
 };
-
-// instagrapiSessionIdCron();
-// setInstagramSessionIdInCache("54017079092%3AUmny1PAHZ5C0ar%3A10");
-// userUpdaterCron();
 
 export const initScheduledJobs = () => {
   try {

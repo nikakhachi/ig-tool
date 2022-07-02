@@ -41,6 +41,4 @@ const logger: Logger = winston.createLogger({
   transports: [ConsoleTransport, ErrorLogsTransport],
 });
 
-logger.info(`Running in ${process.env.NODE_ENV} Mode`);
-
 export default logger;
