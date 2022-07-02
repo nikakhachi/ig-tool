@@ -9,6 +9,7 @@ const ENV_VARIABLES = [
   "INSTAGRAPI_REST_USERNAME",
   "INSTAGRAPI_REST_PASSWORD",
   "PASSWORD",
+  "ADMIN_KEY",
 ];
 const NODE_ENV_OPTIONS = ["development", "production", "testing"];
 

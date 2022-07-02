@@ -38,7 +38,7 @@ export class UnauthorizedException extends BaseResponse {
 export class ForbiddenException extends BaseResponse {
   constructor(res: Response, body: unknown = "Forbidden Attempt") {
     super();
-    BaseResponse.run(res, body, 401);
+    BaseResponse.run(res, body, 403);
   }
 }
 
