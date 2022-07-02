@@ -18,7 +18,7 @@ export const signInController = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   if (!username || !password) return new BadRequestException(res, "Fields are Missing");
   const usernameInDb = await getUserByUsername(username);
-  if (!usernameInDb) return new BadRequestException(res, "Invalid Credentials");
+  if (!usernameInDb || password !== process.env.PASSWORD) return new BadRequestException(res, "Invalid Credentials");
   const accessToken = await signAccessToken(username);
   const refreshToken = await signRefreshToken(username);
   setAccessTokenCookie(res, accessToken);
