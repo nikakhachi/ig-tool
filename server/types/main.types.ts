@@ -1,3 +1,5 @@
+import { User } from "@prisma/client";
+
 export type ConnectionActionType = "Followed" | "Followers Gained" | "Unfollowed" | "Follower Lost";
 
 export type UserConnectionType = {
@@ -23,3 +25,5 @@ export type FullInstagramUserDataType = {
   userFollowers: UserConnectionType[];
   userFollowings: UserConnectionType[];
 };
+
+export type UserType = User;

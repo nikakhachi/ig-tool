@@ -18,7 +18,8 @@ const userUpdaterCron = async () => {
     }
     logger.debug("CRON : User Updater Cron has Ended");
   } catch (e) {
-    logger.error("CRON: failed userUpdaterCron", e);
+    console.error(e); // eslint-disable-line
+    logger.error("CRON: failed userUpdaterCron");
   }
 };
 
@@ -29,7 +30,8 @@ export const instagrapiSessionIdCron = async () => {
     setInstagramSessionIdInCache(sessionId);
     logger.debug("CRON : SessionID Cron has Ended");
   } catch (e) {
-    logger.error("CRON: failed instagrapiSessionIdCron", e);
+    console.error(e); // eslint-disable-line
+    logger.error("CRON: failed instagrapiSessionIdCron");
   }
 };
 
