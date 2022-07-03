@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import instagrapi from "../providers/instagrapi.provider";
+import instagrapi from "../providers/instagrapi";
 import { setAccessTokenCookie, setRefreshTokenCookie } from "../services/cookie.service";
 import { signAccessToken, signRefreshToken } from "../services/jwt.service";
 import { createUser, getUserByUsername } from "../services/user.service";

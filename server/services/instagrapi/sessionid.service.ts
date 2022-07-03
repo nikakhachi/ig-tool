@@ -1,6 +1,6 @@
 import { getCache, setCache } from "../../cache";
 import { CacheKeys } from "../../cache/enums";
-import instagrapi from "../../providers/instagrapi.provider";
+import instagrapi from "../../providers/instagrapi";
 import logger from "../../utils/logger";
 
 const sessionIdExpiration = 60 * 60 * 5;
@@ -21,7 +21,7 @@ export const setInstagramSessionIdInCache = (value: string) => {
 
 export const getInstagramSessionIdFromCache = () => {
   const sessionId = getCache(CacheKeys.INSTAGRAM_SESSION_ID);
-  if (!sessionId) {
+  if (!sessionId || typeof sessionId !== "string") {
     throw new Error("Instagrapi Session ID not Found");
   }
   const sessionIdRate = increaseInstagramSessionIdRate();
