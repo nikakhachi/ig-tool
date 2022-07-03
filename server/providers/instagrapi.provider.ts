@@ -1,17 +1,19 @@
 import axios from "axios";
 import FormData from "form-data";
-import { getInstagramSessionIdFromCache } from "../cache";
+import { getInstagramSessionIdFromCache } from "../services/instagrapi/sessionid.service";
 import { FullInstagramUserDataType, UserConnectionType } from "../types/main.types";
 import logger from "../utils/logger";
 import { UserInfoType } from "../types/instagrapiProvider.types";
+import { getInstagrapiRootAccountCredentials } from "../services/instagrapi/rootAccount.service";
 
 const INSTAGRAPI_REST_ENDPOINT = `http://localhost:8000`;
 
 const getSessionId = async () => {
   logger.debug("INSTAGRAPI : Getting Session ID");
   const formData = new FormData();
-  formData.append("username", process.env["INSTAGRAPI_REST_USERNAME"]);
-  formData.append("password", process.env["INSTAGRAPI_REST_PASSWORD"]);
+  const { username, password } = getInstagrapiRootAccountCredentials();
+  formData.append("username", username);
+  formData.append("password", password);
   formData.append("verification_code", "");
   formData.append("proxy", "");
   formData.append("locale", "");
@@ -81,9 +83,6 @@ const getUserInfo = async (pk: string) => {
 
 const getFullUserDataByPk = async (pk: string) => {
   logger.debug("INSTAGRAPI : Getting Full User Data");
-  const formData = new FormData();
-  formData.append("user_id", pk);
-  formData.append("sessionid", getInstagramSessionIdFromCache());
   const userInfo = await getUserInfo(pk);
   const userFollowers = await getFollowers(pk);
   const userFollowings = await getFollowings(pk);
