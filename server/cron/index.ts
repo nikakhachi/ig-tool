@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { setInstagramSessionIdInCache } from "../cache";
+import { setInstagramSessionIdInCache } from "../services/instagrapi/sessionid.service";
 import { prisma } from "../prisma";
 import instagrapi from "../providers/instagrapi.provider";
 import { updateUser } from "../services/user.service";
