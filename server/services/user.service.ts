@@ -1,7 +1,7 @@
 import { Connection, ConnectionHistory, User } from "@prisma/client";
 import { ConnectionTypeEnum } from "../types/enums";
 import { prisma } from "../prisma";
-import instagrapi from "../providers/instagrapi.provider";
+import instagrapi from "../providers/instagrapi";
 import { FullInstagramUserDataType, UserConnectionType } from "../types/main.types";
 import logger from "../utils/logger";
 
