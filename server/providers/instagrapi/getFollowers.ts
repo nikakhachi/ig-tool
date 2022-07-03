@@ -4,6 +4,7 @@ import { getInstagramSessionIdFromCache } from "../../services/instagrapi/sessio
 import { UserConnectionType } from "../../types/main.types";
 import logger from "../../utils/logger";
 import FormData from "form-data";
+import { instagrapiErrorHandler } from "./errorHandler";
 
 export default async (pk: string) => {
   logger.debug("INSTAGRAPI : Getting User Followers");
@@ -13,13 +14,18 @@ export default async (pk: string) => {
   formData.append("sessionid", instagrapiSessionId);
   formData.append("use_cache", "false");
   formData.append("amount", "0");
-  const { data } = await axios.post(`${INSTAGRAPI_REST_ENDPOINT}/user/followers`, formData);
-  const followers: UserConnectionType[] = Object.keys(data).map((item) => ({
-    pk: data[item].pk,
-    username: data[item].username,
-    full_name: data[item].full_name,
-    is_private: data[item].is_private,
-    profile_pic_url: data[item].profile_pic_url,
-  }));
-  return followers;
+  const path = "/user/followers";
+  try {
+    const { data } = await axios.post(`${INSTAGRAPI_REST_ENDPOINT}${path}`, formData);
+    const followers: UserConnectionType[] = Object.keys(data).map((item) => ({
+      pk: data[item].pk,
+      username: data[item].username,
+      full_name: data[item].full_name,
+      is_private: data[item].is_private,
+      profile_pic_url: data[item].profile_pic_url,
+    }));
+    return followers;
+  } catch (error: any) {
+    return instagrapiErrorHandler(error.response.data, path);
+  }
 };
