@@ -5,7 +5,10 @@ export class BaseResponse {
   static run(res: Response, body: unknown, status: number) {
     const isError = String(status)[0] !== "2";
     const isBodyString = typeof body === "string";
-    logger[isError ? "error" : "info"](`${res.req.originalUrl} - ${isBodyString ? body : "Payload Sent"} - STATUS : ${status}`);
+    const clientIp = res.req.socket.remoteAddress || res.req.ip;
+    logger[isError ? "error" : "info"](
+      `${res.req.originalUrl} - ${isBodyString ? body : "Payload Sent"} - STATUS ${status} | CLIENT ${clientIp}`
+    );
     res.status(status).json({
       path: res.req.originalUrl,
       status,
