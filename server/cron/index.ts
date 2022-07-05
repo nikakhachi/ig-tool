@@ -1,7 +1,5 @@
 import cron from "node-cron";
-import { setInstagramSessionIdInCache } from "../services/instagrapi/sessionid.service";
 import { prisma } from "../prisma";
-import instagrapi from "../providers/instagrapi";
 import { updateUser } from "../services/user.service";
 import logger from "../utils/logger";
 
@@ -23,22 +21,9 @@ const userUpdaterCron = async () => {
   }
 };
 
-export const instagrapiSessionIdCron = async () => {
-  try {
-    logger.debug("CRON : SessionID Cron Started");
-    const sessionId = await instagrapi.getSessionId();
-    setInstagramSessionIdInCache(sessionId);
-    logger.debug("CRON : SessionID Cron has Ended");
-  } catch (e) {
-    console.error(e); // eslint-disable-line
-    logger.error("CRON: failed instagrapiSessionIdCron");
-  }
-};
-
 export const initScheduledJobs = () => {
   try {
-    cron.schedule("* 0 * * *", userUpdaterCron);
-    cron.schedule("0 */5 * * *", instagrapiSessionIdCron);
+    cron.schedule("0 0 * * *", userUpdaterCron);
   } catch (e) {
     logger.error("CRON: scheduling was failed");
   }
