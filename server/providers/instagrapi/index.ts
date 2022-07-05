@@ -1,5 +1,5 @@
 import getUserId from "./getUserId";
-import getSessionId from "./getSessionId";
+import generateSessionId from "./generateSessionId";
 import getFollowers from "./getFollowers";
 import getFollowings from "./getFollowings";
 import getFullUserDataByPk from "./getFullUserDataByPk";
@@ -10,7 +10,7 @@ export const INSTAGRAPI_REST_ENDPOINT = `http://localhost:8000`;
 
 const instagrapi = {
   getUserId,
-  getSessionId,
+  generateSessionId,
   getFollowers,
   getFollowings,
   getFullUserDataByPk,

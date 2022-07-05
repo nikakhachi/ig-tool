@@ -2,7 +2,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import logger from "./utils/logger";
 import { checkEnvVariables } from "./checkEnvVariables";
-import { initScheduledJobs, instagrapiSessionIdCron } from "./cron";
+import { initScheduledJobs } from "./cron";
+import instagrapi from "./providers/instagrapi";
 
 checkEnvVariables();
 
@@ -12,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 logger.info(`Running in ${process.env.NODE_ENV} Mode`);
 
-instagrapiSessionIdCron().then(() => {
+instagrapi.generateSessionId().then(() => {
   app.listen(PORT, () => logger.info(`Server Running on PORT : ${PORT}`));
   initScheduledJobs();
 });

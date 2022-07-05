@@ -4,7 +4,7 @@ import instagrapi from "../../providers/instagrapi";
 import logger from "../../utils/logger";
 
 const sessionIdExpiration = 60 * 60 * 5;
-const sessionIdRateLimit = 5;
+const sessionIdRateLimit = 10;
 
 const getInstagramSessionIdRate = () => {
   const sessionIdRate = getCache(CacheKeys.INSTAGRAM_SESSION_ID_RATE);
@@ -27,10 +27,8 @@ export const getInstagramSessionIdFromCache = () => {
   const sessionIdRate = increaseInstagramSessionIdRate();
   logger.debug(`Instagrapi SessionID : ${sessionId} | Rate : ${sessionIdRate}`);
   if (sessionIdRate >= sessionIdRateLimit) {
-    logger.debug(`Instagrapi SessionID Rate Limit has reached. Generating new SessionID..`);
-    instagrapi.getSessionId().then((sessionId) => {
-      setInstagramSessionIdInCache(sessionId);
-    });
+    logger.warn(`Instagrapi SessionID Rate Limit has reached. Generating new SessionID..`);
+    instagrapi.generateSessionId();
   }
   return sessionId;
 };
