@@ -17,14 +17,17 @@ export const instagrapiErrorHandler = async (
   callback: () => Promise<any>,
   isCallbackSessionIdGeneration = false
 ) => {
+  logger.warn(" ");
   instagrapiErrorCount++;
-  logger.warn(`INSTAGRAPI : ${eResponseData.exc_type} at ${path}`);
-  logger.warn(`INSTAGRAPI : ${eResponseData.detail}`);
   if (instagrapiErrorCount > RECURRENT_ERROR_LIMIT) {
-    logger.error(`INSTAGRAPI : Recurrent Error Limit has Reached`);
+    logger.error(`INSTAGRAPI : Recurrent Error Limit (${RECURRENT_ERROR_LIMIT}) has Reached`);
     throw new Error("To many recurrent Instagrapi Errors");
   }
+  logger.warn(`INSTAGRAPI : ${eResponseData.exc_type} at ${path}`);
+  logger.warn(`INSTAGRAPI : Error details - ${eResponseData.detail}`);
+  logger.warn(`INSTAGRAPI : Reccurent Error Count - ${instagrapiErrorCount}`);
   logger.warn(`INSTAGRAPI : Retrying..`);
+  logger.warn(" ");
   await instagrapi.generateSessionId();
   instagrapiErrorCount = 0;
   if (!isCallbackSessionIdGeneration) {
