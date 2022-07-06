@@ -3,8 +3,8 @@ import { CacheKeys } from "../../cache/enums";
 import instagrapi from "../../providers/instagrapi";
 import logger from "../../utils/logger";
 
-const sessionIdExpiration = 60 * 60 * 5;
-const sessionIdRateLimit = 10;
+const sessionIdExpiration = 60 * 60 * 24 * 30;
+const sessionIdRateLimit = 50;
 
 const getInstagramSessionIdRate = () => {
   const sessionIdRate = getCache(CacheKeys.INSTAGRAM_SESSION_ID_RATE);
