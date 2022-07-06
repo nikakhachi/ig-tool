@@ -12,6 +12,7 @@ const updateRootAccountIteratorInCache = (cachedIterator: number) => {
   let iteratorNextValue = cachedIterator;
 
   const conditionToIncrease: boolean = typeof iteratorNextValue === "number" && iteratorNextValue < numOfInstagramRootAccounts - 1;
+
   if (conditionToIncrease) {
     iteratorNextValue++;
   } else {
@@ -22,17 +23,16 @@ const updateRootAccountIteratorInCache = (cachedIterator: number) => {
   setCache(CacheKeys.ROOT_ACCOUNT_ITERATOR, iteratorNextValue, 60 * 60 * 24);
 };
 
-export const getInstagrapiRootAccountCredentials = (val = 1) => {
+export const getInstagrapiRootAccountCredentials = () => {
   const cachedIterator = (getCache(CacheKeys.ROOT_ACCOUNT_ITERATOR) as number) || 0;
 
   const username = usernames?.[cachedIterator];
   const password = passwords?.[cachedIterator];
-
   if (!username || !password) throw new Error("Can not get Instagrapi root account credentials");
 
   logger.info(`INSTAGRAPI ROOT: ${username} | ${cachedIterator}`);
 
-  updateRootAccountIteratorInCache(val);
+  updateRootAccountIteratorInCache(cachedIterator);
 
   return { username, password };
 };
