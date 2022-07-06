@@ -6,7 +6,7 @@ import logger from "../../utils/logger";
 import FormData from "form-data";
 import { instagrapiErrorHandler } from "./errorHandler";
 
-export default async (pk: string) => {
+const getFollowers = async (pk: string): Promise<UserConnectionType[]> => {
   logger.debug("INSTAGRAPI : Getting User Followers");
   const instagrapiSessionId = getInstagramSessionIdFromCache();
   const formData = new FormData();
@@ -26,6 +26,8 @@ export default async (pk: string) => {
     }));
     return followers;
   } catch (error: any) {
-    return instagrapiErrorHandler(error.response.data, path);
+    return instagrapiErrorHandler(error.response.data, path, () => getFollowers(pk));
   }
 };
+
+export default getFollowers;

@@ -6,7 +6,7 @@ import logger from "../../utils/logger";
 import FormData from "form-data";
 import { instagrapiErrorHandler } from "./errorHandler";
 
-export default async (pk: string) => {
+const getUserInfo = async (pk: string): Promise<UserInfoType> => {
   logger.debug("INSTAGRAPI : Getting User Info");
   const formData = new FormData();
   formData.append("user_id", pk);
@@ -17,6 +17,8 @@ export default async (pk: string) => {
     const { data: userInfo } = (await axios.post(`${INSTAGRAPI_REST_ENDPOINT}${path}`, formData)) as { data: UserInfoType };
     return userInfo;
   } catch (error: any) {
-    return instagrapiErrorHandler(error.response.data, path);
+    return instagrapiErrorHandler(error.response.data, path, () => getUserInfo(pk));
   }
 };
+
+export default getUserInfo;

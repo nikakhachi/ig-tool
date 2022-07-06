@@ -6,8 +6,8 @@ import FormData from "form-data";
 import { instagrapiErrorHandler } from "./errorHandler";
 import { setInstagramSessionIdInCache } from "../../services/instagrapi/sessionid.service";
 
-export default async () => {
-  logger.debug("INSTAGRAPI : Getting Session ID");
+const generateSessionId = async () => {
+  logger.info("INSTAGRAPI : Getting Session ID");
   const formData = new FormData();
   const { username, password } = getInstagrapiRootAccountCredentials();
   formData.append("username", username);
@@ -19,10 +19,12 @@ export default async () => {
   const path = "/auth/login";
   try {
     const { data: instagrapiSessionId } = await axios.post(`${INSTAGRAPI_REST_ENDPOINT}${path}`, formData);
-    logger.debug(`INSTAGRAPI : New Session ID is ${instagrapiSessionId}`);
+    logger.info(`INSTAGRAPI : New Session ID is ${instagrapiSessionId}`);
     setInstagramSessionIdInCache(instagrapiSessionId);
     return instagrapiSessionId as string;
   } catch (error: any) {
-    return instagrapiErrorHandler(error.response.data, path);
+    return instagrapiErrorHandler(error.response.data, path, generateSessionId, true);
   }
 };
+
+export default generateSessionId;
