@@ -23,7 +23,7 @@ const userUpdaterCron = async () => {
 
 export const initScheduledJobs = () => {
   try {
-    cron.schedule("0 0 * * *", userUpdaterCron);
+    cron.schedule("20 22 * * *", userUpdaterCron);
   } catch (e) {
     logger.error("CRON: scheduling was failed");
   }
